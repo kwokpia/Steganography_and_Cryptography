@@ -1,0 +1,7 @@
+# Project exclude paths
+/.gradle/
+/Steganography and Cryptography/task/build/
+/Steganography and Cryptography/task/out/
+/Steganography and Cryptography/task/out/production/classes/
+/Topics/Bitwise and bit-shift operations/Unique number/out/
+/Topics/Bitwise and bit-shift operations/Unique number/out/production/classes/

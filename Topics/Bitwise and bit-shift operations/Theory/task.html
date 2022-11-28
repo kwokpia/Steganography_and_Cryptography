@@ -1,0 +1,111 @@
+<h2>Bitwise and bit-shift operations</h2>
+<html><body><p>As you know, in most cases, computers use the binary format of number representation. In this format, each digit of a number can be either <code class="language-kotlin">0</code> or <code class="language-kotlin">1</code>. For example, the decimal value <code class="language-kotlin">15</code> is <code class="language-kotlin">1111</code> in the binary format. We've already learned how to convert integer numbers to the binary format and do some binary arithmetics. Now let's learn what else we can do with binary numbers. </p>
+<p>The Kotlin language provides several operators for manipulating individual bits of integer numbers. These operations are fast and simple actions directly supported by the processor. They are particularly important in lower-level programming, e.g., in device drivers, low-level graphics, network communication, encryption, and compression.</p>
+<p>Although computers often have efficient built-in instructions for performing arithmetic and logical operations, all these operations can be done by combining <strong>bitwise</strong> and <strong>bit-shift</strong> operators and zero-testing in various ways.</p>
+<h5 id="bitwise-operators" style="text-align: center;">Bitwise operators</h5>
+<p>There are four bitwise operators: <code class="language-kotlin"><span style="color: #000000;">inv()</span></code> <strong>(bitwise NOT, inversion, complement)</strong>, <code class="language-kotlin"><span style="color: #000000;">or</span></code> <strong>(bitwise OR)</strong>, <code class="language-kotlin"><span style="color: #000000;">and</span></code> <strong>(bitwise AND)</strong> and <code class="language-kotlin"><span style="color: #000000;">xor</span></code> <strong>(bitwise XOR)</strong>. Each of these operators goes through all bits of both operands (numbers) one by one (i.e., bitwise) and produces a new number as a result.</p>
+<ul>
+<li><code class="language-kotlin"><span style="color: #000000;">inv()</span></code> is a unary operator that inverses bits in the binary format of the number, turning every <code class="language-kotlin">0</code> into <code class="language-kotlin">1</code> and every <code class="language-kotlin">1</code> into <code class="language-kotlin">0</code>. It also changes the sign bit of the value.</li>
+<li><code class="language-kotlin"><span style="color: #000000;">or</span></code> is a binary operator that performs bitwise OR: the result digit is <code class="language-kotlin">1</code> if at least one operand digit is <code class="language-kotlin">1</code>, otherwise, it is <code class="language-kotlin">0</code>.</li>
+<li><code class="language-kotlin"><span style="color: #000000;">and</span></code> is a binary operator that performs bitwise AND: the result digit is <code class="language-kotlin">1</code> if both operand digits are <code class="language-kotlin">1</code>, otherwise, it is <code class="language-kotlin">0</code>.</li>
+<li><code class="language-kotlin"><span style="color: #000000;">xor</span></code> is a binary operator that performs bitwise XOR: the result digit is <code class="language-kotlin">1</code> if exactly one operand is <code class="language-kotlin">1</code>, otherwise, it is <code class="language-kotlin">0</code>.</li>
+</ul>
+<p></p><div class="alert alert-primary">The listed operators can be applied to both integer and boolean operands. If both operands are integers, then bitwise operations will be performed. If both operands are booleans, the corresponding logical operations are performed (except <code class="language-kotlin">~</code>).</div><p></p>
+<p>Let's assume we have two integer numbers: <code class="language-kotlin">15</code> and <code class="language-kotlin">10</code>. The first number has a binary representation <code class="language-kotlin">1111</code>, the second one is <code class="language-kotlin">1010</code>. Note, we will ignore unimportant zeros in numbers for brevity. The example below illustrates the use of <code class="language-kotlin">and</code>, <code class="language-kotlin">or</code>, and <code class="language-kotlin">xor</code> operators:</p>
+<pre><code class="language-kotlin">val first = 15  // binary format 1111
+val second = 10 // binary format 1010
+
+val bitwiseAnd = first and second // 1111 &amp; 1010 = 1010, the result is 10
+val bitwiseOr = first or second  // 1111 | 1010 = 1111, the result is 15
+val bitwiseXor = first xor second // 1111 ^ 1010 = 0101, the result is 5</code></pre>
+<p>And here are two examples of inversion: </p>
+<pre><code class="language-kotlin">val first = 35  // binary format 0..00100011
+val second = -35 // binary format 1..11011101
+
+val inverseFirst = first.inv() // ~ 0..00100011 = 1..11011100, the result is -36
+val inverseSecond = second.inv()  // ~ 1..11011101 = 0..00100010, the result is 34
+</code></pre>
+<p>Why do we get the output <samp>-36</samp> in the first example? It's because the compiler works with 2's complement of numbers. </p>
+<p>For any positive integer <code class="language-kotlin">n</code>, the inversion of  <code class="language-kotlin">n</code> will be <code class="language-kotlin">-(n+1)</code>. So, the bitwise complement of 35 is <samp>-</samp>36. </p>
+<p>The second case with the number <samp>-</samp>35 is similar: the inversion of a negative number <code class="language-kotlin">-n</code> is <code class="language-kotlin">n-1</code>, so the result is 34.</p>
+<p>Why do we need these operations? For example, you can check if a number is divisible by 2 using <code class="language-kotlin">and</code>: </p>
+<pre><code class="language-kotlin">val a = 5
+val b = 4
+
+val bitwiseAndA = a and 1 // 101 &amp; 001 = 001, the result is 1 =&gt;
+// a is divided by 2 with a remainder equal to one
+
+val bitwiseAndB = b and 1 // 100 &amp; 001 = 000, the result is 0 =&gt; 
+// a is divided by 2 without a remainder</code></pre>
+<p>We hope that now you understand how these operators work. We will show you how to apply them in practice in the following topics as well as in our projects.</p>
+<h5 id="bit-shift-operators" style="text-align: center;">Bit-shift operators</h5>
+<p>In addition to the bitwise operators, Kotlin also provides <strong>bit-shift</strong> operators that can be used to shift the bits of an integer number from one position to another.</p>
+<p>There are three bit-shift operators:</p>
+<ul>
+<li><span style="color: #000000;"> <code class="language-kotlin">shl</code></span> shifts the bit representation to the left by a certain number of specified bits, and zero bits are shifted into the low-order positions;</li>
+<li><span style="color: #000000;"> <code class="language-kotlin">shr</code> </span> shifts the bit representation to the right by a certain number of specified bits. It fills the empty place with the value of the sign bit.</li>
+<li><span style="color: #000000;"> <code class="language-kotlin">ushr</code> </span> is an unsigned bit-shift operator that shifts the bit pattern to the right by a certain number of specified bits. It is almost like <code class="language-kotlin">shr</code>, but the shifted values are filled up with zeros. The result of the <code class="language-kotlin">ushr</code> operator is always positive.</li>
+</ul>
+<p>The following example illustrates how to perform<strong> </strong>fast multiplication and division by two using bit-shift operators:</p>
+<pre><code class="language-kotlin">var value = 25   // binary: 0001 1001, decimal: 25
+
+value = value shl 1 // binary: 0011 0010, decimal: 50
+value = value shl 2 // binary: 1100 1000, decimal: 200
+
+var anotherVal = 14   // binary: 1110, decimal: 14
+anotherVal = anotherVal shr 1 // binary: 0111, decimal: 7
+</code></pre>
+<p>As you can see, the result of the left-shift operator <span style="color: #000000;"><code class="language-kotlin">shl</code> </span>is equivalent to multiplication by two, and the result of the right-shift operator is equivalent to division by two. Let's generalize: when we use signed bit-shift operators, we perform multiplication or division of the left operand by 2 in the power of the right operand.</p>
+<pre><code class="language-kotlin">var newVal = 25
+
+newVal = newVal shl 1 // 25 * 2^1 = 50
+newVal = newVal shl 3 // 50 * 2^3 = 400
+newVal = newVal shr 2 // 400 / 2^2 = 100
+</code></pre>
+<p>Another example shows the calculation of the middle of a positive integer interval.</p>
+<pre><code class="language-kotlin">val left = 10
+val right = 20
+
+val mid = (left + right) shr 1 // this is 15!</code></pre>
+<p>Of course, this magic produces the same result as <code class="language-kotlin">(left + right) / 2</code>, but the bit-shift version is often considered a faster way to do that.</p>
+<p>One more example illustrates the difference between <code class="language-kotlin">shr</code> and <code class="language-kotlin">ushr</code>:</p>
+<pre><code class="language-kotlin">val number1 = 5
+val number2 = -5
+
+val shrNumber1 = number1 shr 1 // 0..0101 shr 1 = 0..0010, the result is 2
+val ushrNumber1 = number1 ushr 1 // 0..0101 ushr 1 = 0..0010, the result is 2
+val shrNumber2 = number2 shr 1 // 1..1011 shr 1 = 1..1101, the result is -3
+val ushrNumber2 = number2 ushr 1 // 1..1011 ushr 1 = 01..1101, the result is 2147483645</code></pre>
+<ul>
+<li><code class="language-kotlin">shr</code> shifts your bits to the right.</li>
+<li><code class="language-kotlin">ushr</code> also shifts to the right but fills up the leftmost bit with a zero.</li>
+</ul>
+<p>As you can see, if you're doing bit shifts on positive values only, there is no difference between the operators. If you're also working with negative values, there is a big difference. In this case, <code class="language-kotlin">ushr</code> will flip the leftmost bit, so you'll get a positive value.</p>
+<p>Since Kotlin 1.6, you can use <code class="language-kotlin">rotateLeft()</code> and <code class="language-kotlin">rotateRight()</code> for shifting a certain number of specified bits:</p>
+<pre><code class="language-kotlin">val a = 4
+
+val shiftRight = a.rotateRight(1) // 0..0100.rotateRight(1) = 0..0010, the result is 2
+val shiftLeft = a.rotateLeft(1) // 0..0100.rotateLeft(1) = 0..1000, the result is 8</code></pre>
+<p>Also here can be the following example:</p>
+<pre><code class="language-kotlin">val b = 3
+
+val shiftLeft = a.rotateLeft(1) // 0..0011.rotateLeft(1) = 0..0110, the result is 6
+val shiftRight = a.rotateRight(1) // 0..0011.rotateRight(1) = 1..0001, the result is -2147483647</code></pre>
+<p><code class="language-kotlin">rotateRight()</code> changed our value in a strange way. What's the matter? It happens because <code class="language-kotlin">int</code> type represents a 32-bit integer value, so, when you shift your last bit by <code class="language-kotlin">rotateRight()</code>, bit on position 31 will be <code class="language-kotlin">1</code> and bit on position 0 will be 1.</p>
+<h5 id="precedence-of-bitwise-and-bit-shift-operations" style="text-align: center;">Precedence of bitwise and bit-shift operations</h5>
+<p>Like arithmetic operators, bitwise and bit-shift operators follow so-called precedence rules, which determine the order of performing and grouping operations in an expression. Operations with higher precedence are performed before those with lower precedence. Take a look at the list of operations in decreasing order of priority: </p>
+<ol>
+<li>Parentheses ( <code class="language-kotlin">(expr)</code> );</li>
+<li>Postfix increment/decrement (<code class="language-kotlin">expr++</code>, <code class="language-kotlin">expr--</code>);</li>
+<li>Unary plus/minus, prefix increment/decrement (<code class="language-kotlin">-expr</code>, <code class="language-kotlin">++expr</code>, <code class="language-kotlin">--expr</code>);</li>
+<li>Multiplication, division, and modulus ( <code class="language-kotlin">*</code>, <code class="language-kotlin">/</code>, <code class="language-kotlin">%</code> );</li>
+<li>Addition and subtraction ( <code class="language-kotlin">+</code>, <code class="language-kotlin">-</code> );</li>
+<li>Assignment operations ( <code class="language-kotlin">=</code>, <code class="language-kotlin">+=</code>, <code class="language-kotlin">-=</code>, <code class="language-kotlin">*=</code>, <code class="language-kotlin">/=</code>, <code class="language-kotlin">%=</code>);</li>
+<li>bitwise and bit-shift operators (<code class="language-kotlin">and</code>, <code class="language-kotlin">or</code>, <code class="language-kotlin">xor</code>, <code class="language-kotlin">shr</code>, <code class="language-kotlin">shl</code>, <code class="language-kotlin">ushr</code>).</li>
+</ol>
+<p><code class="language-kotlin">and, or, xor, shr, shl, ushr</code> are not operators themselves, and their order of execution in an expression is from left to right.</p>
+<p></p><div class="alert alert-primary">When operators have equal precedence, another rule is used to determine whether the evaluation should be performed from left to right or vice versa. It is called <strong>associativity</strong>. </div> <p></p>
+<p>All operators we have considered so far are evaluated from left to right, that is, in the way most familiar to you.</p>
+<p>This means that in the following two expressions: <code class="language-kotlin">first or second and third</code> and <code class="language-kotlin">first or (second and third)</code>, operations will be executed in a different order and hence results may vary. If you go back to the example above <code class="language-kotlin">left + right shr 1</code> in a code snippet, you can see that here we don't need to use brackets, unlike in the case of its equivalent <code class="language-kotlin">(left + right) / 2</code>, because addition has higher precedence than all bit-shift operations. Remember these priorities when you combine arithmetic operations with the operations on bits. </p>
+<h5 id="conclusion" style="text-align: center;">Conclusion</h5>
+<p>In this topic, we've learned how to perform certain operations on the bits of integer numbers and found out how these operations correspond to some of the arithmetic ones. Bitwise operators affect bits one by one according to the logical operations, while bit-shift operators allow us to move the whole bit pattern left or right. The theory may seem a bit complicated; however, it is essential to understand the basics. Now, some practice will certainly help you process the new information!</p></body></html>

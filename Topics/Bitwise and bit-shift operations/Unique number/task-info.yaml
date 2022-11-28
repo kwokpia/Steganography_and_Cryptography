@@ -1,0 +1,16 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: |-
+    fun main() {
+        val (a, b, c) = readLine()!!.split(" ").map { it.toInt() }
+        // write your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14455#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sun, 27 Nov 2022 02:47:05 UTC"
+record: -1

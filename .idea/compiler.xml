@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="17">
+      <module name="Steganography_and_Cryptography.Steganography_and_Cryptography-task-build-classes-kotlin.main" target="8" />
+      <module name="Steganography_and_Cryptography.Steganography_and_Cryptography-task-build-reports-tests.main" target="8" />
+      <module name="Steganography_and_Cryptography.Steganography_and_Cryptography-task-build-test-results.main" target="8" />
+      <module name="Steganography_and_Cryptography.Steganography_and_Cryptography-task-build-tmp.main" target="8" />
+      <module name="Steganography_and_Cryptography.Steganography_and_Cryptography-task.main" target="8" />
+      <module name="Steganography_and_Cryptography.Topics-Bitwise_and_bit-shift_operations-Check_the_options.main" target="8" />
+      <module name="Steganography_and_Cryptography.Topics-Bitwise_and_bit-shift_operations-Theory.main" target="8" />
+      <module name="Steganography_and_Cryptography.Topics-Bitwise_and_bit-shift_operations-Unique_number.main" target="8" />
+      <module name="Steganography_and_Cryptography.Topics-Bitwise_and_bit-shift_operations-What_is_n.main" target="8" />
+      <module name="Steganography_and_Cryptography.util.main" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
